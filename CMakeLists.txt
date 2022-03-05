@@ -7,6 +7,6 @@ add_subdirectory(src)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(main main.cpp)
+add_executable(main main.cpp keccak.cpp)
 
 target_link_libraries(main secp256k1-cxx)

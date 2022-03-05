@@ -58,7 +58,6 @@ Secp256K1::~Secp256K1()
 Secp256K1::Secp256K1(const std::string& privateKey)
     : ctx(secp256k1_context_create(SECP256K1_CONTEXT_SIGN | SECP256K1_CONTEXT_VERIFY))
 {
-    auto priv = Secp256K1::base16Decode(privateKey);
 
     privKey.assign(privateKey.begin(), privateKey.end());
     //verify priv key
