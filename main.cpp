@@ -1,8 +1,5 @@
-
-
 #include "src/secp256k1-cxx.hpp"
 #include "src/sha/sha2.hpp"
-
 #include <iostream>
 #include <tuple>
 #include <iostream>
@@ -37,27 +34,35 @@ using namespace std;
 int main()
 {
     std::string key(32, ' ');
-       hex2bin((unsigned char *)&key[0], "bbc32876271effdbb576d5751eede7162aed93a398deec0f7fdb330bc3f49956", 32);
-    Secp256K1 p { key };
-    std::cout << "Private key: " << p.privateKeyHex() << std::endl;
+    hex2bin((unsigned char *)&key[0], "bbc32876271effdbb576d5751eede7162aed93a398deec0f7fdb330bc3f49956", 32);
 
-    std::vector<unsigned char> vh{p.publicKey()};
-    vh.erase(vh.begin());
-    std::cout << "Public key: " << bin2hex((unsigned char *)&vh[0], 64) << std::endl;
+    unsigned long long t = {};
+    unsigned long long t7 = {};
 
-    unsigned char ethashtag[32] = {};
-    unsigned char etaddr[20] = {};
+    do
+    {
 
-    Keccak keccak256(Keccak::Keccak256);
-    hex2bin(ethashtag, keccak256((char *)&vh[0], 64).c_str(), 32);
-    memcpy(etaddr, ethashtag, 20);
-    std::string etaddrstring = "0x" + bin2hex(etaddr, 20);
- //   std::cout << "et pubkey :" << std::endl << "0x" + bin2hex((unsigned char *)vh.c_str(), 64) << std::endl << "et address:" << std::endl << etaddrstring << std::endl;
-    std::cout << "et pubkey :" << std::endl <<  bin2hex((unsigned char *)&p.publicKey()[1], 64) << std::endl << "et address:" << std::endl << etaddrstring << std::endl;
+        key[7] = *(char *)t7;
+        key[13] = *((char *)t7 + 1);
+        key[17] = *((char *)t);
+        key[19] = *((char *)t + 1);
+        key[23] = *((char *)t + 2);
+        Secp256K1 p { key };
+        std::cout << "Private key: " << p.privateKeyHex() << std::endl;
 
-
+        std::vector<unsigned char> vh{p.publicKey()};
+        vh.erase(vh.begin());
+        std::cout << "Public key: " << bin2hex((unsigned char *)&vh[0], 64) << std::endl;
+        unsigned char ethashtag[32] = {};
+        unsigned char etaddr[20] = {};
+        Keccak keccak256(Keccak::Keccak256);
+        hex2bin(ethashtag, keccak256((char *)&vh[0], 64).c_str(), 32);
+        memcpy(etaddr, ethashtag, 20);
+        std::string etaddrstring = "0x" + bin2hex(etaddr, 20);
+//        std::cout << "et pubkey :" << std::endl <<  bin2hex((unsigned char *)&p.publicKey()[1], 64) << std::endl << "et address:" << std::endl << etaddrstring << std::endl;
+        if (etaddrstring.contains("address")) { std::cout << yeah; break; }
+        t++;
+        if(t == 0) t7++;
+    }while(t7 < 0x10000);
     return 0;
- //   std::string x = Secp256K1::base16Decode("de7761f8874d23d4e8f3f26f321ade560556c23c8d7c7c8227bfefaa83f2c485b511d12037bd1e1f9730f5cc031784e895d263f557793215c2f401f3cc5cfe2f");
-
 }
-//88D8893C90FD4697E242C8FAD3D514848C789F0C15B4DA74280ECA1037FBF6511928DF756AC48B8B167F599583567759886D161B83ECA4870514E7D602F54F78
