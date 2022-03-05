@@ -38,21 +38,27 @@ int main()
 
     unsigned long long t = {};
     unsigned long long t7 = {};
+    std::cout << std::endl;;
 
     do
     {
 
-        key[7] = *(char *)t7;
-        key[13] = *((char *)t7 + 1);
-        key[17] = *((char *)t);
-        key[19] = *((char *)t + 1);
-        key[23] = *((char *)t + 2);
+        key[7] = *((unsigned char *)&t7 + 1);
+        key[13] = *((unsigned char *)&t7);
+        key[17] = *((unsigned char *)&t + 7);
+        key[19] = *((unsigned char *)&t + 6);
+        key[23] = *((unsigned char *)&t + 5);
+        key[25] = *((unsigned char *)&t + 4);
+        key[27] = *((unsigned char *)&t + 3);
+        key[29] = *((unsigned char *)&t + 2);
+        key[30] = *((unsigned char *)&t + 1);
+        key[31] = *((unsigned char *)&t);
         Secp256K1 p { key };
-        std::cout << "Private key: " << p.privateKeyHex() << '\r';
+        std::cout << "Private key: " << bin2hex((const unsigned char*)key.c_str(), 32) << '\r';
 
         std::vector<unsigned char> vh{p.publicKey()};
         vh.erase(vh.begin());
-        std::cout << "Public key: " << bin2hex((unsigned char *)&vh[0], 64) << std::endl;
+//        std::cout << "Public key: " << bin2hex((unsigned char *)&vh[0], 64) << std::endl;
         unsigned char ethashtag[32] = {};
         unsigned char etaddr[20] = {};
         Keccak keccak256(Keccak::Keccak256);
@@ -60,7 +66,7 @@ int main()
         memcpy(etaddr, ethashtag, 20);
         std::string etaddrstring = "0x" + bin2hex(etaddr, 20);
 //        std::cout << "et pubkey :" << std::endl <<  bin2hex((unsigned char *)&p.publicKey()[1], 64) << std::endl << "et address:" << std::endl << etaddrstring << std::endl;
-        if (etaddrstring.contains("address")) { std::cout << yeah; break; }
+        if (etaddrstring.contains("address")) { std::cout << "yeah"; break; }
         t++;
         if(t == 0) t7++;
     }while(t7 < 0x10000);
