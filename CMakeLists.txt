@@ -4,7 +4,7 @@ project(libsecp256k1-cxx LANGUAGES C CXX)
 
 add_subdirectory(src)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(main main.cpp keccak.cpp)
