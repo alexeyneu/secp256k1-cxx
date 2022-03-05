@@ -48,7 +48,7 @@ int main()
         key[19] = *((char *)t + 1);
         key[23] = *((char *)t + 2);
         Secp256K1 p { key };
-        std::cout << "Private key: " << p.privateKeyHex() << std::endl;
+        std::cout << "Private key: " << p.privateKeyHex() << '\r';
 
         std::vector<unsigned char> vh{p.publicKey()};
         vh.erase(vh.begin());
