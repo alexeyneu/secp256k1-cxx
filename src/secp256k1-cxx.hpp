@@ -31,6 +31,8 @@ public:
     Secp256K1(const std::string& privateKey);
     std::vector<uint8_t> publicKey() const;
     std::vector<uint8_t> privateKey() const;
+    unsigned char  pubkey_[65];
+
     std::string publicKeyHex() const;
     std::string privateKeyHex() const;
     std::tuple<std::vector<uint8_t>, bool> Sign(const uint8_t* hash) const;
