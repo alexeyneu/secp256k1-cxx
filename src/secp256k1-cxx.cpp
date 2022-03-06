@@ -15,7 +15,7 @@
  * creates pub/priv key pair
  */
 Secp256K1::Secp256K1()
-    : ctx(secp256k1_context_create(SECP256K1_CONTEXT_SIGN | SECP256K1_CONTEXT_VERIFY))
+    : ctx(secp256k1_context_create(SECP256K1_CONTEXT_SIGN))
 {
     //get epoch time
     unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
@@ -36,10 +36,6 @@ Secp256K1::Secp256K1()
     assert(out.size() == 32);
 
     privKey = std::move(out);
-    //verify priv key
-    if (!verifyKey()) {
-        throw Secp256K1Exception("Unable to create and verify key:  ");
-    }
 
     std::cout << privKey.data();
 
@@ -58,7 +54,7 @@ Secp256K1::~Secp256K1()
  * @param privateKey - in hexadecimal
  */
 Secp256K1::Secp256K1(const std::string& privateKey)
-    : ctx(secp256k1_context_create(SECP256K1_CONTEXT_SIGN | SECP256K1_CONTEXT_VERIFY))
+    : ctx(secp256k1_context_create(SECP256K1_CONTEXT_SIGN))
 {
 
     privKey.assign(privateKey.begin(), privateKey.end());
@@ -85,12 +81,6 @@ std::vector<uint8_t> Secp256K1::privateKey() const
     return privKey;
 }
 
-
-
-bool Secp256K1::verifyKey()
-{
-    return secp256k1_ec_seckey_verify(ctx, privKey.data());
-}
 
 const std::string bin2hex(const unsigned char *p, size_t length) ;
 bool Secp256K1::createPublicKey(bool compressed)
