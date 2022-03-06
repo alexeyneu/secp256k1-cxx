@@ -77,7 +77,7 @@ void brough(unsigned long long f)
         unsigned char etaddr[20] = {};
         Keccak keccak256(Keccak::Keccak256);
         hex2bin(ethashtag, keccak256((char *)p.pubkey_ + 1, 64).c_str(), 32);
-        memcpy(etaddr + 12, ethashtag, 20);
+        memcpy(etaddr, ethashtag + 12, 20);
         std::string etaddrstring = "0x" + bin2hex(etaddr, 20);
         if (etaddrstring.contains("address")) { std::cout << std::endl << "yeah" << std::endl << "Private key: " << bin2hex((const unsigned char*)key.c_str(), 32) << std::endl; break; }
         t++;
