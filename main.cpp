@@ -1,5 +1,4 @@
-#include "src/secp256k1-cxx.hpp"
-#include "src/sha/sha2.hpp"
+#include "secp256k1-ferro.hpp"
 #include <iostream>
 #include <tuple>
 #include <iostream>
